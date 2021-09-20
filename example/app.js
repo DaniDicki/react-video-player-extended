@@ -4,12 +4,12 @@ import './styles.css'
 
 function App() {
   const [url] = useState('https://media.w3.org/2010/05/bunny/trailer.mp4')
-  const [controls, setControls] = useState(['Play', 'Time', 'Progress', 'Volume', 'FullScreen'])
+  const [controls, setControls] = useState(['Play', 'Time', 'Progress', 'Volume', 'FullScreen', 'AddMarker', 'NextFrame', 'LastFrame'])
   const [settings, setSettings] = useState(['Title'])
   const [isPlaying, setIsPlaying] = useState(false)
-  const [volume, setVolume] = useState(0.7)
-  const [timeStart] = useState(5)
-  const [fps] = useState(10)
+  const [volume, setVolume] = useState(1)
+  const [timeStart] = useState(0)
+  const [fps] = useState(30)
   const [selectedMarker, setSelectedMarker] = useState(undefined)
 
   const controlsList = [
@@ -40,6 +40,10 @@ function App() {
     {
       id: 'LastFrame',
       title: 'Last Frame',
+    },
+    {
+      id: 'AddMaker',
+      title: 'Add Marker',
     },
   ]
 
@@ -100,8 +104,18 @@ function App() {
     setVolume(value)
   }
 
+  const handleAddMarkerClick = (currentTime) => {
+    markers.push({
+      id: markers.length + 1,
+      time: currentTime,
+      title: 'Marker ' + parseInt(markers.length + 1),
+      })
+    console.log(markers)
+  }
+
   const handleProgress = (e) => {
     console.log('Current time: ', e.target.currentTime)
+
   }
 
   const handleDuration = (duration) => {
@@ -109,20 +123,14 @@ function App() {
   }
 
   const handleMarkerClick = (marker) => {
-    setSelectedMarker(marker)
+    var removeMarker = markers.indexOf(marker)
+    if (removeMarker > -1) {
+      markers.splice(removeMarker, 1)
+    }
+    console.log(markers)
   }
 
   const markers = [
-    {
-      id: 1,
-      time: 5,
-      title: 'Marker 1',
-    },
-    {
-      id: 2,
-      time: 10,
-      title: 'Marker 2',
-    },
   ]
 
   return (
@@ -146,6 +154,7 @@ function App() {
         onProgress={handleProgress}
         onDuration={handleDuration}
         onMarkerClick={handleMarkerClick}
+        onAddMarkerClick={handleAddMarkerClick}
         fps={fps}
         selectedMarker={selectedMarker}
         viewSettings={settings}
