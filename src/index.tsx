@@ -12,6 +12,7 @@ export type ControlSelection =
   | 'Volume'
   | 'LastFrame'
   | 'NextFrame'
+  | 'AddMarker'
 
 export type SettingsSelection = 'Title' | 'FPS' | 'Repeat' | 'StartTime' | 'Volume'
 
@@ -32,6 +33,7 @@ interface Props {
   onProgress?: (event: Event) => void
   onDuration?: (duration: number) => void
   onMarkerClick?: (marker: Marker) => void
+  onAddMarkerClick?: (currentTim: number) => void
   selectedMarker?: Marker
   viewSettings?: SettingsSelection[]
   markerConfiguration?: MarkerConfiguration
@@ -72,6 +74,7 @@ function VideoPlayer(props: Props) {
     onDuration = () => {},
     // tslint:disable-next-line: no-empty
     onMarkerClick = () => {},
+    onAddMarkerClick = () => {},
     selectedMarker,
     viewSettings,
     markerConfiguration,
@@ -211,8 +214,13 @@ function VideoPlayer(props: Props) {
     onMarkerClick(marker)
   }
 
+  const handleAddMarkerClick = (currentTim: number) => {
+    onAddMarkerClick(currentTime)
+    handleNextFrameClick();
+    handleLastFrameClick();
+  }
+
   const handleNextFrameClick = () => {
-    console.log(`Moving to next frame with fps: ${fps}`)
     const frameTime = 1 / fps
     playerEl.current.currentTime = Math.min(
       playerEl.current.duration,
@@ -221,7 +229,6 @@ function VideoPlayer(props: Props) {
   }
 
   const handleLastFrameClick = () => {
-    console.log(`Moving to last frame with fps: ${fps}`)
     const frameTime = 1 / fps
     playerEl.current.currentTime = Math.max(0, playerEl.current.currentTime - frameTime)
   }
@@ -272,6 +279,7 @@ function VideoPlayer(props: Props) {
           onMarkerClick={handleMarkerClick}
           onNextFrameClick={handleNextFrameClick}
           onLastFrameClick={handleLastFrameClick}
+          onAddMarkerClick={handleAddMarkerClick}
           selectedMarker={selectedMarker}
           markerConfiguration={markerConfiguration}
         />
@@ -281,3 +289,4 @@ function VideoPlayer(props: Props) {
 }
 
 export default VideoPlayer
+
