@@ -218,3 +218,7 @@
 .react-video-controls .last-frame {
   background-image: url('./images/last-frame.svg');
 }
+
+.react-video-controls .add-marker {
+  background-image: url('./images/add-marker.svg');
+}
