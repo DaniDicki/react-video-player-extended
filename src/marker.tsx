@@ -43,7 +43,6 @@ export class MarkerView extends React.Component<Props, never> {
     if(testmarker.indexOf(marker) == -1){
       testmarker[marker.id] = marker;
     }
-    console.log(testmarker)
     let selectedColor =
       this.props.selectedMarker !== undefined && this.props.selectedMarker.id === marker.id
         ? configuration !== undefined
@@ -64,7 +63,6 @@ export class MarkerView extends React.Component<Props, never> {
         }}
         onClick={() => {
           onMarkerClick(marker)
-          console.log(marker)
           let index = testmarker.indexOf(marker);
           testmarker.splice(index, 1);
         }}
