@@ -1,10 +1,15 @@
 import * as React from 'react'
+import { array } from 'yargs';
+
+var testmarker: Marker[] = [];
 
 export interface Marker {
   id: number
   time: number
   title: string
 }
+
+export {testmarker};
 
 export interface MarkerConfiguration {
   color: string
@@ -14,6 +19,7 @@ export interface MarkerConfiguration {
 interface Props {
   marker: Marker
   duration: number
+  newmarker: number
   onMarkerClick: (marker: Marker) => void
   selectedMarker?: Marker
   configuration?: MarkerConfiguration
@@ -34,7 +40,10 @@ export class MarkerView extends React.Component<Props, never> {
     const { marker, configuration, onMarkerClick } = this.props
     const { title } = marker
     const id = String(marker.id)
-
+    if(testmarker.indexOf(marker) == -1){
+      testmarker[marker.id] = marker;
+    }
+    console.log(testmarker)
     let selectedColor =
       this.props.selectedMarker !== undefined && this.props.selectedMarker.id === marker.id
         ? configuration !== undefined
@@ -55,6 +64,9 @@ export class MarkerView extends React.Component<Props, never> {
         }}
         onClick={() => {
           onMarkerClick(marker)
+          console.log(marker)
+          let index = testmarker.indexOf(marker);
+          testmarker.splice(index, 1);
         }}
       />
     )

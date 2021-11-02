@@ -112,6 +112,7 @@ function VideoPlayer(props: Props) {
     if (timeStart && playerEl) {
       playerEl.current.currentTime = timeStart
     }
+    
   }
 
   const setVolume = (value: number) => {
