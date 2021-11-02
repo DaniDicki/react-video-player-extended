@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import VideoPlayer from '../src/index'
 import './styles.css'
+import { testmarker } from  '../src/marker.tsx'
 
 function App() {
   const [url] = useState('https://media.w3.org/2010/05/bunny/trailer.mp4')
@@ -105,21 +106,26 @@ function App() {
   }
 
   const handleAddMarkerClick = (currentTime) => {
-    markers.push({
-      id: markers.length + 1,
-      time: currentTime,
-      title: 'Marker ' + parseInt(markers.length + 1),
-      })
-    console.log(markers)
+    if(markers.length > 0){
+      markers.push({
+        id: markers[markers.length - 1].id + 1,
+        time: currentTime,
+        title: 'Marker ' + parseInt(markers.length + 1),
+        })
+    }else{
+      markers.push({
+        id: 1,
+        time: currentTime,
+        title: 'Marker ' + parseInt(markers.length + 1),
+        })
+    }
+    
   }
 
   const handleProgress = (e) => {
-    console.log('Current time: ', e.target.currentTime)
-
   }
 
   const handleDuration = (duration) => {
-    console.log('Duration: ', duration)
   }
 
   const handleMarkerClick = (marker) => {
@@ -130,8 +136,8 @@ function App() {
     console.log(markers)
   }
 
-  const markers = [
-  ]
+  const markers = testmarker.filter((a) => a);
+
 
   return (
     <div className="container">
